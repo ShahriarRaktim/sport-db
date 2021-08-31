@@ -1,10 +1,14 @@
+const detailsSpiner = document.getElementById('details-spiner');
+detailsSpiner.style.display = 'none';
+const teamSpiner = document.getElementById('team-spiner');
+  teamSpiner.style.display = 'none';
 const searchButton = () => {
   // cleaning details div 
   const detailsParrent = document.getElementById('details-parent');
   detailsParrent.textContent = '';
 
-  // const teamSpiner = document.getElementById('team-spiner');
-  // teamSpiner.style.display = 'block';
+  const teamSpiner = document.getElementById('team-spiner');
+  teamSpiner.style.display = 'block';
   const searchBox = document.getElementById('search-input');
   searchValue = searchBox.value;
   searchBox.value = '';
@@ -14,17 +18,21 @@ const searchButton = () => {
 }
 
 const loadData = (teams) => {
+  const teamSpiner = document.getElementById('team-spiner');
+  teamSpiner.style.display = 'none';
   const teamParrent = document.getElementById('team-parrent');
   teamParrent.textContent = '';
   teams.forEach(team => {
     const div = document.createElement('div');
+    let stadum = team.strStadiumDescription?.slice(0, 200);
+    console.log(stadum);
     div.classList.add('col');
     div.innerHTML = `
         <div class="card">
             <img src="${team.strTeamJersey}" class="card-img-top" alt="...">
             <div class="card-body">
               <h5 class="card-title">${team.strTeam}</h5>
-              <p class="card-text">${team.strStadiumDescription.slice(0, 200)}</p>
+              <p class="card-text">${stadum}</p>
               <button class="bg-info" onclick="details(${team.idTeam})">Details</button>
             </div>
           </div>
@@ -34,8 +42,8 @@ const loadData = (teams) => {
 }
 
 const details = teamId => {
-  // const detailsSpiner = document.getElementById('details-spiner');
-  // detailsSpiner.style.display = 'block';
+  const detailsSpiner = document.getElementById('details-spiner');
+  detailsSpiner.style.display = 'block';
 
   fetch(`https://www.thesportsdb.com/api/v1/json/1/lookupteam.php?id=${teamId}`)
     .then(res => res.json())
@@ -43,6 +51,8 @@ const details = teamId => {
 }
 
 const loadDetails = team => {
+  const detailsSpiner = document.getElementById('details-spiner');
+  detailsSpiner.style.display = 'none';
   const detailsParrent = document.getElementById('details-parent');
   detailsParrent.textContent = '';
   const div = document.createElement('div');
